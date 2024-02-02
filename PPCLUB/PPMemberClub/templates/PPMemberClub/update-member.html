@@ -1,0 +1,86 @@
+{% extends 'PPMemberClub/base.html' %}
+
+{% load crispy_forms_tags %}
+
+
+{% block content %}
+
+    <body>
+
+        <div class="container text-white form-layout" style="border-radius:20px; border: hidden rgb(255,255,255); box-shadow: 0 0 50px rgba(9, 0, 0, 0.5); backdrop-filter:blur(300px); width:contain; padding:25px 25px;">
+            
+            <h3> Update Member Details</h3>
+
+            <hr>
+            <br>
+
+            <form method="POST" enctype="multipart/form-data" autocomplete="off">
+
+                {% csrf_token %}
+
+                {{form.Fullname|as_crispy_field}}
+
+                <br>
+
+                {{form.Email|as_crispy_field}}
+
+                <br>
+
+                {{form.Dob|as_crispy_field}}
+
+                <br>
+
+                {{form.Resphone|as_crispy_field}}
+
+                <br>
+
+                {{form.Altermobileno|as_crispy_field}}
+
+                <br>
+
+                {{form.Resaddress|as_crispy_field}}
+
+                <br>
+                
+                {{form.Country|as_crispy_field}}
+
+                <br>
+
+                {{form.Officeno|as_crispy_field}}
+
+                <br>
+
+                {{form.Profilepic|as_crispy_field}}
+
+                <br>
+
+                {{form.Signature|as_crispy_field}}
+
+                <br>
+                <br>
+
+                {% if request.user.is_superuser %}
+                <button type="submit" class="btn btn-primary"> Submit Form &nbsp; <i class="fa fa-check" aria-hidden="true"></i></button>
+                {% endif %}
+                
+                &nbsp;
+                {% if request.user.username == 'FrontDesk' %}
+                <button type="submit" class="btn btn-info"> Request Changes &nbsp; <i class="fa fa-check" aria-hidden="true"></i></button>
+                {% endif %}
+                &nbsp;
+
+                <a href="{% url 'dashboard' %}" class="btn btn-secondary"> Go Back &nbsp; <i class="fa fa-arrow-left" aria-hidden="true"></i></a>
+
+
+            </form>
+
+        </div>
+
+        <br>
+
+    </body>
+
+{% endblock %}
+
+
+

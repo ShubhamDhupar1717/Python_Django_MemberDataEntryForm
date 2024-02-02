@@ -1,0 +1,84 @@
+{% extends 'PPMemberClub/base.html' %}
+
+{% block content %}
+
+
+
+        <div class="text-white" style="border-radius:20px; border: hidden rgb(255,255,255); box-shadow: 0 0 50px rgba(9, 0, 0, 0.5); backdrop-filter:blur(300px); width:contain; padding:25px 25px;">
+        <div>
+        <p> <i class="fa fa-user-circle-o" aria-hidden="true"></i> <h3>Member Family Details</h3> </p>
+        <hr />
+            <dl class="row">
+        
+                <dt class="col-sm-2">
+                    ID :
+                </dt>
+                <dd class="col-sm-10">
+                    {{record.id}}
+                </dd>
+                <dt class="col-sm-2">
+                    First Name :
+                </dt>
+                <dd class="col-sm-10">
+                    {{record.firstname}} 
+                </dd>
+    
+                <dt class="col-sm-2">
+                    Last Name :
+                </dt>
+                <dd class="col-sm-10">
+                    {{record.lastname}}
+                </dd>
+                <dt class="col-sm-2">
+                    relation :
+                </dt>
+                <dd class="col-sm-10">
+                    {{record.relation}}
+                </dd>
+                <dt class="col-sm-2">
+                    Contact Number :
+                </dt>
+                <dd class="col-sm-10">
+                    {{record.contactno}}
+                </dd>
+                <dt class="col-sm-2">
+                    Home Address :
+                </dt>
+                <dd class="col-sm-10">
+                    {{record.homeaddress}}
+                </dd>
+                <dt class="col-sm-2">
+                    Spouse Name :
+                </dt>
+                <dd class="col-sm-10">
+                    {{record.Spousename}}
+                </dd>
+                <dt class="col-sm-2">
+                   Spouse D.O.B :
+                </dt>
+                <dd class="col-sm-10">
+                    {{record.Spousedob}}
+                </dd>
+                <dt class="col-sm-2">
+                    Child Name :
+                </dt>
+                <dd class="col-sm-10">
+                    {{record.Childname}}
+                </dd>
+                
+            </dl>
+        </div>
+        </div>
+
+
+
+    <br>
+
+    <a href="{% url 'dashboard' %}" class="btn btn-secondary"> Return &nbsp; <i class="fa fa-arrow-left" aria-hidden="true"></i> </a> &nbsp; &nbsp;
+    <a class="btn btn-primary" href="{% url 'update-memberfamily' record.id %}">Edit Data</a> &nbsp; &nbsp;
+    {% if request.user.is_superuser %}
+    &nbsp;
+    <a class="btn btn-info" href="{% url 'proposedmemberfamilydata' record.id %}">Pending Request</a>
+    {% endif %}
+
+{% endblock %}

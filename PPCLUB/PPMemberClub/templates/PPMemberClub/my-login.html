@@ -1,0 +1,59 @@
+{% extends 'PPMemberClub/base.html' %}
+
+{% load crispy_forms_tags %}
+
+
+{% block content %}
+
+    <body>
+
+        <div class="container shadow-md p-5 form-layout" style="border-radius:20px;border: hidden rgb(255,255,255);box-shadow: 0 0 100px rgba(19, 0, 0, 0.5); backdrop-filter:blur(300px); width:contain;">
+            {%for message in messages%}
+                <h5 style="color:greenyellow;">{{message}}</h5>
+            {% endfor %}
+
+            <h3 class="text-center"> Login to your account </h3>
+
+            <hr>
+            <br>
+
+            <form method="POST" autocomplete="off">
+
+                {% csrf_token %}
+
+                {{form.username|as_crispy_field}}
+
+                <br>
+                
+                {{form.password|as_crispy_field}}
+
+                <br>
+
+                <button type="submit" class="btn btn-primary w-100 btn-block p-2"> Login &nbsp; <i class="fa fa-key" aria-hidden="true"></i> </button>
+
+
+            </form>
+
+            <br>
+
+            <div class="text-center">
+
+                <p> Don't have an account? </p> <a href="{% url 'register' %}"> Register </a>
+
+            </div>
+
+
+        </div>
+
+        <br>
+
+    </body>
+
+{% endblock %}
+
+
+
+
+
+
+

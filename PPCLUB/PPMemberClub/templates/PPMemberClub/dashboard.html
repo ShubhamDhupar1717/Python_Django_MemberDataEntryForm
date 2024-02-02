@@ -1,0 +1,76 @@
+{% extends 'PPMemberClub/base.html' %}
+
+{% block content %}
+
+    <h3> Welcome, {{user}} user! 👋 </h3>
+
+    <br>
+    
+
+    {% if request.user.is_superuser %}
+        <a class="btn btn-outline-primary btn-sm" href="{% url 'create-member' %}">Create a new record &nbsp; <i class="fa fa-plus-circle" aria-hidden="true"></i></a>
+    {% endif %}
+
+    <br>
+    <br>
+
+    {%for message in messages%}
+        <h2 style="color:green;">{{message}}</h2>
+    {% endfor %}
+
+    <table class="table table-hover table-bordered">
+
+        <thead class="table-dark">
+
+            <tr>
+
+                <th scope="col"> ID </th>
+                <th scope="col"> Full name </th>
+                <th scope="col"> Email </th>
+                <th scope="col"> Date of Birth </th>
+                <th scope="col"> Registered Phone </th>
+                <th scope="col"> Alternate MobileNo. </th>
+                <th scope="col"> Registered Address </th>
+                <th scope="col"> OfficeNo. </th>
+                <th scope="col"> Country </th>
+
+                <th scope="col"> Detailed View </th>
+            </tr>
+
+        </thead>
+
+        <tbody>
+
+        {% if records %}
+
+            {% for record in records %}
+
+            <tr>
+
+                <td> {{record.id}} </td>
+
+                <td> {{record.Fullname}} </td>
+
+                <td> {{record.Email}} </td>
+
+                <td> {{record.Dob}} </td>
+                <td> {{record.Resphone}} </td>
+                <td> {{record.Altermobileno}} </td>
+                <td> {{record.Resaddress}} </td>
+                <td> {{record.Officeno}} </td>
+                <td> {{record.Country}} </td>
+
+                <td> <a class="btn btn-success btn-sm" href="{% url 'view-member' record.id %}"> <i class="fa fa-eye" aria-hidden="true"></i> </a> </td>
+
+            </tr>
+
+            {% endfor %}
+        
+        {% endif %}
+
+        </tbody>
+
+    </table>
+
+
+{% endblock %}

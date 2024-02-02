@@ -1,0 +1,54 @@
+{% extends 'PPMemberClub/base.html' %}
+
+{% load crispy_forms_tags %}
+
+{% block content %}
+
+    <body>
+
+            <div class="container text-white form-layout" style="border-radius:20px; border: hidden rgb(255,255,255); box-shadow: 0 0 50px rgba(9, 0, 0, 0.5); backdrop-filter:blur(300px); width:contain; padding:25px 25px;">
+            <h3> Create your account </h3>
+
+            <hr>
+            
+            <br>
+            <form method="POST" autocomplete="off">
+
+                {% csrf_token %} 
+                {{form.email|as_crispy_field}}
+
+                <br>
+
+                {{form.username|as_crispy_field}}
+
+                <br>
+
+                {{form.password1|as_crispy_field}}
+
+                <br>
+
+                {{form.password2|as_crispy_field}}
+
+                <br>
+
+                <button type="submit" class="btn btn-primary w-100 btn-block p-2"> Create account &nbsp; <i class="fa fa-user" aria-hidden="true"></i> </button>
+
+
+            </form>
+            <br>
+
+            <div class="text-center">
+
+                <p> Already have an account? </p> <a href="{% url 'my-login' %}"> Login </a>
+
+            </div>
+
+
+        </div>
+
+        <br>
+
+    </body>
+
+
+{% endblock %}

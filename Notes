@@ -1,0 +1,12 @@
+Step 1 : MEMBERS_CLUB_PROJECT : this is the root/main project folder.
+Step 2 : in this directory i have installed a virtualenv via : pip install virtualenv
+Step 3 : then i have created a virtual environment named - Clubenv via : virtualenv Clubenv
+Step 4 : then i have activated the virtual env named Clubenv via Clubenv/Scripts/activate
+Step 5 : then installed Django in the Clubenv Directory.
+Step 6 : then i have created an extra folder named PPCLUB, don't know why.
+Step 7 : then i have created a Django project inside PPCLUB folder via : django-admin startproject PPCLUB, which will be containing all the main project files.
+Step 8 : then i have created an Django Application named PPMemberClub inside PPCLUB folder. so PPCLUB folder got 2 seperate folders named PPCLUB( contains Project Files )
+            and PPMemberClub( our main application, we are working on ).
+Step 9 : At last i have created a SuperUser (Admin) via : python manage.py createsuperuser.
+Step 10 : ready to run our application via : python manage.py runserver.
+

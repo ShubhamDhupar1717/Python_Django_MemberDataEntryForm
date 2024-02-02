@@ -1,0 +1,193 @@
+{% extends 'PPMemberClub/base.html' %}
+
+{% load crispy_forms_tags %}
+
+
+{% block content %}
+
+    <body>
+
+        <div class="text-black shadow-md p-4" style="border-radius:20px; border: hidden rgb(255,255,255); box-shadow: 0 0 100px rgba(19, 0, 0, 0.5); backdrop-filter:blur(300px); width:contain; padding:25px 25px;">
+
+            <h3> Create New Member </h3>
+
+            <hr>
+            <br>
+
+            <form method="POST" enctype="multipart/form-data" autocomplete="off">
+
+                {% csrf_token %}
+                <div class="row">
+
+                <div class="col">
+                 <!-- this below is the Member creation form -->
+
+                <h4>Member Directory Form</h4>
+                <br>
+                {{mform.Fullname|as_crispy_field}}
+
+                <br>
+
+                {{mform.Email|as_crispy_field}}
+
+                <br>
+
+                {{mform.Dob|as_crispy_field}}
+
+                <br>
+
+                {{mform.Resphone|as_crispy_field}}
+
+                <br>
+
+                {{mform.Altermobileno|as_crispy_field}}
+
+                <br>
+
+                {{mform.Resaddress|as_crispy_field}}
+
+                <br>
+                
+                {{mform.Country|as_crispy_field}}
+
+                <br>
+
+                {{mform.Officeno|as_crispy_field}}
+
+                <br>
+
+                {{mform.Profilepic|as_crispy_field}}
+
+                <br>
+
+                {{mform.Signature|as_crispy_field}}
+
+                <br>
+                <br>
+                </div>
+
+                <div class="col">
+                <!-- this below is the Member-Family creation form -->
+
+                <h4 class="text-black">Member's Family Form</h4>
+                <br>
+                {{mfform.firstname|as_crispy_field}}
+
+                <br>
+
+                {{mfform.lastname|as_crispy_field}}
+
+                <br>
+
+                {{mfform.relation|as_crispy_field}}
+
+                <br>
+
+                {{mfform.contactno|as_crispy_field}}
+
+                <br>
+
+                {{mfform.homeaddress|as_crispy_field}}
+
+                <br>
+
+                {{mfform.Spousename|as_crispy_field}}
+
+                <br>
+                
+                {{mfform.Spousedob|as_crispy_field}}
+
+                <br>
+
+                {{mfform.Childname|as_crispy_field}}
+
+                <br>
+                <br>
+                </div>
+
+
+                <div class="col">
+                 <!-- this below is the Member-Address creation form -->
+
+                 <h4 class="text-black">Member's Address Form</h4>
+                 <br>
+                 {{maform.Address|as_crispy_field}}
+
+                <br>
+
+                {{maform.Country|as_crispy_field}}
+
+                <br>
+
+                {{maform.City|as_crispy_field}}
+
+                <br>
+
+                {{maform.State|as_crispy_field}}
+
+                <br>
+
+                {{maform.Postalcode|as_crispy_field}}
+
+                <br>
+
+                {{maform.Addresstype|as_crispy_field}}
+
+                <br>
+
+                {{maform.Additionalinfo|as_crispy_field}}
+
+                <br>
+                <br>
+                </div>
+
+
+                <div class="col">
+                <!-- this below is the Member-Address creation form -->
+
+                <h4 class="text-black">Member's Business Form</h4>
+                <br>
+                {{mbform.Businessname|as_crispy_field}}
+
+                <br>
+
+                {{mbform.Businessdetails|as_crispy_field}}
+
+                <br>
+
+                {{mbform.Businessaddress|as_crispy_field}}
+
+                <br>
+
+                {{mbform.Businesscity|as_crispy_field}}
+
+                <br>
+
+                {{mbform.Businessemail|as_crispy_field}}
+
+                <br>
+
+                {{mbform.Businesspostalcode|as_crispy_field}}
+
+                <br>
+            </div>
+
+                <button type="submit" class="btn btn-primary"> Submit Form &nbsp; <i class="fa fa-check" aria-hidden="true"></i></button>
+
+                &nbsp;
+
+                <a href="{% url 'dashboard' %}" class="btn btn-secondary"> Go Back &nbsp; <i class="fa fa-arrow-left" aria-hidden="true"></i></a>
+            </div>
+
+            </form>
+
+        </div>
+
+        <br>
+
+    </body>
+
+{% endblock %}
+
+
+
