@@ -1,10 +1,10 @@
+from django.conf import settings
 from django.http import HttpResponse
 from django.shortcuts import render, redirect
 
-from .info import EMAIL_HOST_USER
 from .forms import CreateUserForm, LoginForm, CreateMemberData, UpdateMemberData, CreateMemberFamilyData, UpdateMemberFamilyData, CreateMemberAddressData, UpdateMemberAddressData, CreateMemberBusinessData, UpdateMemberBusinessData, ProposedMemberDataForm, ProposedMemberFamilyDataForm, ProposedMemberAddressDataForm, ProposedMemberBusinessDataForm
 from django.contrib.auth.models import auth
-from django.contrib.auth import authenticate
+from django.contrib.auth import authenticate, get_user_model
 from django.contrib.auth.decorators import login_required
 from .models import MemberData, MemberFamilyData, MemberAddressData, MemberBusinessData, ProposedMemberData
 from django.contrib import messages
@@ -14,12 +14,12 @@ from django.contrib.auth.models import Group
 from django.forms.models import model_to_dict
 
 from django.core.mail import send_mail
+from django.core.mail import EmailMessage
 from django.contrib.sites.shortcuts import get_current_site
 from django.template.loader import render_to_string
 from django.utils.http import urlsafe_base64_encode, urlsafe_base64_decode
 from django.utils.encoding import force_bytes, force_str
 from . tokens import generate_token
-from django.core.mail import EmailMessage
 
 
 
@@ -51,45 +51,70 @@ def register(request):
             #     messages.error(request, "Email Id already exists, try some other Id....")
             #     return redirect("index")
 
-            #by default the new user joined will not be active. he will be activated as soon as he opens the confirmation link send on the mail of the user.
+        #by default the new user joined will not be active. he will be activated as soon as he opens the confirmation link send on the mail of the user.
             form.instance.is_active = False
             user = form.save()
             
             group = Group.objects.get(name='NormalUsers')
             user.groups.add(group)
+            print(user.groups)
             
             #this below code is to extract username and show in messages when new user register.
             username = form.cleaned_data.get('username')
             email = form.cleaned_data.get('email')
-            messages.success(request, 'Account created successfully! Welcome ' + username + 'please check your mail to confirm Email-Address.')
 
-            #this below code is for Email Confirmation.
-            subject = "Welcome to Pitam-Pura Members Club!!"
-            message = "Thank you for visiting our website.\nWe have sent you an comfirmation Email, please check your inbox in order to confirm it."
-            from_email = EMAIL_HOST_USER
-            print(from_email)
-            to_list = [email]
-            send_mail(subject, message, from_email, to_list, fail_silently=True)
+            messages.success(request, 'Account created successfully! Welcome ' + username + '\nplease check your mail to confirm Email-Address.')
 
-            #this below code is to send unique confirmation link to the user mail account.
-            current_site = get_current_site(request)
+
+        #this below code is for Email Confirmation.
+            send_mail("Welcome to Pitam-Pura Members Club!!",  #Subject
+                      "Thank you for visiting our website.\nWe have sent you an comfirmation Email, please check your inbox in order to confirm it.",  #Message
+                      settings.EMAIL_HOST_USER,  #from_email
+                      [email],
+                      )  #to_list
+
+
+        #this below code is to send unique confirmation link to the user mail account.
             email_subject = "Confirm your Email Address @gmail login!"
-            message1 = render_to_string('email-confirmation.html',
+            message1 = render_to_string('PPMemberClub/email-confirmation.html',
             {
                 'name' : username,
-                'domain' : current_site.domain,
+                'domain' : get_current_site(request).domain,
                 'uid' : urlsafe_base64_encode(force_bytes(user.pk)),
                 'token' : generate_token.make_token(user),
+                "protocol": 'https' if request.is_secure() else 'http'
             })
 
-            email = EmailMessage(
+            Email = EmailMessage(
                 email_subject,
                 message1,
-                EMAIL_HOST_USER,
-                [email],
+                settings.EMAIL_HOST_USER,  #from_email
+                [email],  #to_list
             )
-            email.fail_silently = True
-            email.send()
+            Email.fail_silently = True
+            # Email.send()
+            if Email.send():
+                messages.success(request, f'Dear {user}, please go to you email {email} inbox and click on \
+                    received activation link to confirm and complete the registration. <b>Note:</b> Check your spam folder.')
+            else:
+                messages.error(request, f'Problem sending email to {email}, check if you typed it correctly.')
+            
+            # mail_subject = "Activate your user account."
+            # message = render_to_string("PPMemberClub/email-confirmation.html", {
+            #     'user': username,
+            #     'domain': get_current_site(request).domain,
+            #     'uid': urlsafe_base64_encode(force_bytes(user.pk)),
+            #     'token': generate_token.make_token(user),
+            #     "protocol": 'https' if request.is_secure() else 'http'
+            # })
+            # Email = EmailMessage(mail_subject, message, to=[email])
+            # if Email.send():
+            #     messages.success(request, f'Dear <b>{user}</b>, please go to you email <b>{email}</b> inbox and click on \
+            #         received activation link to confirm and complete the registration. <b>Note:</b> Check your spam folder.')
+            # else:
+            #     messages.error(request, f'Problem sending email to {email}, check if you typed it correctly.')
+
+
 
             return redirect("my-login")
 
@@ -101,15 +126,16 @@ def register(request):
 # To activate the user when he confirm the Email Address via mail....
 
 def activate(request, uidb64, token):
+    User = get_user_model()
     uid = force_str(urlsafe_base64_decode(uidb64))
-    user = user.objects.get(pk = uid)
+    user = User.objects.get(pk = uid)
     if user.DoesNotExist:
         user = None
     
     if user is not None and generate_token.check_token(user, token):
         user.is_active = True
         user.save()
-        my_login(request, user)
+        return redirect("my-login")
         
     else:
         return render(request,'activation-failed.html')

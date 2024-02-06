@@ -9,7 +9,7 @@ urlpatterns = [
     path('dashboard', views.dashboard, name="dashboard"),
     path('pending', views.pending, name="pending"),
 
-
+    path('activate/<uidb64>/<token>', views.activate, name="activate"),
 
     #CRUD on Member
     path('view-member/<int:pk>', views.view_member, name="view-member"),
