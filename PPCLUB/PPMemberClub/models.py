@@ -26,7 +26,6 @@ class MemberData(models.Model):
     
     Creation_date = models.DateTimeField(auto_now_add=True)
 
-
     def __str__(self):
         return self.Fullname
     
@@ -52,6 +51,8 @@ class MemberFamilyData(models.Model):
     
     member = models.ForeignKey(MemberData, on_delete=models.CASCADE)
 
+    def __str__(self):
+        return self.firstname
 
 
 
@@ -78,7 +79,6 @@ class MemberAddressData(models.Model):
 
 
 
-
 class MemberBusinessData(models.Model):
 
     Businessname = models.CharField(max_length=100)
@@ -94,6 +94,9 @@ class MemberBusinessData(models.Model):
     Businesspostalcode = models.CharField(max_length=100)
 
     member = models.ForeignKey(MemberData, on_delete=models.CASCADE)
+
+    def __str__(self):
+        return self.Businessname
 
 
 

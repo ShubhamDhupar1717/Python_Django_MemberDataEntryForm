@@ -128,10 +128,15 @@ def register(request):
 def activate(request, uidb64, token):
     User = get_user_model()
     uid = force_str(urlsafe_base64_decode(uidb64))
-    user = User.objects.get(pk = uid)
-    if user.DoesNotExist:
-        user = None
     
+    try:
+        user = User.objects.get(pk = uid)
+    except user.DoesNotExist:
+        user = None
+    print(user)
+    print(generate_token)
+    print(generate_token.check_token(user, token))
+
     if user is not None and generate_token.check_token(user, token):
         user.is_active = True
         user.save()
